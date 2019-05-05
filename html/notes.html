@@ -73,10 +73,24 @@
 
         const eachNote = $("<div>")
           .addClass("card mb-2")
+          .attr("selected-id", `${noteInfo[i].id}`)
+          .attr("selected-title", `${noteInfo[i].title}`)
+          .attr("selected-content", `${noteInfo[i].content}`)
+          .attr("id", "onRead")
           .html(eachNoteBody)
 
         $("#saved-notes").append(eachNote)
       }
+    })
+
+    $(document).on("click", "#onRead", function(event){
+      event.preventDefault();
+      const readTitle = $(this).attr("selected-title");
+      console.log(readTitle + "  ReadTitle");
+      const readContent = $(this).attr("selected-content");
+      console.log(readContent + "  ReadContent");
+      $("#note-title").val(readTitle);
+      $("#note-content").val(readContent);
     })
 
 
