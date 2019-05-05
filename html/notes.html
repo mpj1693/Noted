@@ -12,13 +12,13 @@
 
 <body>
 
-  <nav class="navbar navbar-light bg-success">
+  <nav class="navbar navbar-light bg-info">
     <span class="navbar-brand ml-5">
       <h1>Noted</h1>
     </span>
   </nav>
 
-  <div class="container mt-5 border border-success">
+  <div class="container mt-5 border border-info">
     <div class="row my-3">
 
       <div class="col-12 col-lg-4 col-md-6 col-sm-12 mb-4">
@@ -38,7 +38,7 @@
             <label for="content" class="h5">Note Content</label>
             <textarea class="form-control" rows="8" placeholder="Enter note content here" id="note-content"></textarea>
           </div>
-          <button type="submit" class="btn btn-outline-success btn-lg" id="create-note">Create Note</button>
+          <button type="submit" class="btn btn-outline-info btn-lg" id="create-note">Create Note</button>
         </form>
       </div>
 
@@ -68,7 +68,7 @@
           .text(noteInfo[i].content)
 
         const eachNoteBody = $("<div>")
-          .addClass("card-body bg-success")
+          .addClass("card-body bg-info")
           .append(eachNoteTitle, eachNoteContent)
 
         const eachNote = $("<div>")
