@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+  <link rel="stylesheet" href="style.css">
+  <title>Title</title>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-dark bg-dark">
+    <a href="/html/home.html" class="navbar-brand">Noted</a>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row mt-3">
+
+      <div class="col-4 list-container">
+          <h5 class="card-title">Saved Notes</h5>
+        <div class="card">
+          <ul class="list-group" id="saved-notes">
+
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-8">
+          <form>
+              <div class="form-group">
+                <label for="crud-note">Note Title</label>
+                <input type="text" class="form-control" id="note-title" placeholder="Enter Title Here">
+              </div>
+              <div class="form-group">
+                <label for="crud-note">Note Text</label>
+                <textarea class="form-control" id="note-content" rows="8"></textarea>
+              </div>
+              <button type="submit" class="btn btn-dark">Submit</button>
+            </form>
+      </div>
+
+    </div>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <script>
+  
+  $.ajax({
+    url: "/api/notes",
+    method: "GET"
+  }).then(function(tableData){
+    tableData.forEach(printTable)
+  })
+
+  function printTable(tableInfo){
+    console.log(tableInfo);
+
+    const eachNote = $("<li>").addClass("list-group-item");
+
+      eachNote.text(`${tableInfo.id} \n ${tableInfo.title}`)
+
+      $("#saved-notes").append(eachNote);
+  }
+
+  </script>
+
+</body>
+
+</html>
