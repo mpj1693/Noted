@@ -28,7 +28,7 @@
       </div>
 
 
-      <div class="col-12 col-lg-8 col-md-6 col-sm-12">
+      <buton class="col-12 col-lg-8 col-md-6 col-sm-12">
         <form>
           <div class="form-group">
             <label for="title" class="h5">Note Title</label>
@@ -40,9 +40,9 @@
           </div>
           <button type="submit" class="btn btn-outline-info btn-lg" id="create-note">Create Note</button>
         </form>
-      </div>
-
     </div>
+
+  </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -58,32 +58,50 @@
       console.log(totalNotes + "  < 1");
       for (i = 0; i < totalNotes; i++) {
         console.log(noteInfo[i].title + "  < 2")
-
         const eachNoteTitle = $("<div>")
-            .addClass("card-title h5")
-            .html("#" + noteInfo[i].id + "  " +noteInfo[i].title);
-
+          .addClass("card-title h5")
+          .html("#" + noteInfo[i].id + "  " + noteInfo[i].title);
         const eachNoteContent = $("<div>")
           .addClass("card-text")
           .text(noteInfo[i].content)
-
         const eachNoteBody = $("<div>")
           .addClass("card-body bg-info")
           .append(eachNoteTitle, eachNoteContent)
-
         const eachNote = $("<div>")
-          .addClass("card mb-2")
+          .addClass("card")
           .attr("selected-id", `${noteInfo[i].id}`)
           .attr("selected-title", `${noteInfo[i].title}`)
           .attr("selected-content", `${noteInfo[i].content}`)
+          .attr("style", "cursor: pointer")
           .attr("id", "onRead")
           .html(eachNoteBody)
-
         $("#saved-notes").append(eachNote)
+
+        const deleteButton = $("<button>")
+          .attr("type", "button")
+          .attr("id", "onDelete")
+          .attr("delete-id", `${noteInfo[i].id}`)
+          .addClass("btn btn-outline-danger mb-3")
+          .text("Delete Note")
+
+        $("#saved-notes").append(deleteButton)
       }
     })
 
-    $(document).on("click", "#onRead", function(event){
+    $(document).on("click", "#onDelete", function (event) {
+      event.preventDefault();
+      const readDeleteId = $(this).attr("delete-id");
+      console.log(readDeleteId + "  readDeleteId");
+
+      $.ajax({
+        url: `/api/notes/${readDeleteId}`,
+        method: "DELETE",
+      }).then(function (noteInfo) {
+        location.reload()
+      })
+    })
+
+    $(document).on("click", "#onRead", function (event) {
       event.preventDefault();
       const readTitle = $(this).attr("selected-title");
       console.log(readTitle + "  ReadTitle");
@@ -91,21 +109,15 @@
       console.log(readContent + "  ReadContent");
       $("#note-title").val(readTitle);
       $("#note-content").val(readContent);
-
-
-      
     })
-
 
     $("#create-note").on("click", function (event) {
       event.preventDefault();
-
       var newNote = {
         title: $("#note-title").val().trim(),
         content: $("#note-content").val().trim()
       }
       console.log(newNote + " New Note")
-
       $.ajax({
         url: "/api/notes",
         method: "POST",
@@ -114,8 +126,6 @@
         location.reload();
       })
     })
-
-
   </script>
 
 </body>
