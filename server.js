@@ -12,14 +12,48 @@ app.get("/", function(req, res){
   res.sendFile(path.join(__dirname, "./html/home.html"))
 });
 
+app.get("/notes", function(req, res){
+  res.sendFile(path.join(__dirname, "./html/notes.html"))
+});
+
 app.get("/api/notes", function(req, res){
-connection.query("SELECT * FROM tables", function(err,tableData){
+connection.query("SELECT * FROM tables", function(err,noteInfo){
   if(err){
-    return res.status(500).json(err);
+    
+    return console.log("19");
   }
-  res.json(tableData);
-  console.log(tableData)
+  res.json(noteInfo);
 });
 });
+
+app.get("/api/notes/:selected", function(req, res){
+  connection.query("SELECT * FROM tables where id = ?", [req.params.selected], function(err, result){
+    if(err) {
+      
+      return console.log("29");
+    }
+    res.json(result);
+  })
+})
+
+app.post("/api/notes", function(req, res){
+  connection.query("INSERT INTO tables SET ?", req.body, function(err, createNote){
+    if(err){
+      
+      return console.log("post\n" + err);
+    }
+    res.json(createNote);
+  })
+})
+
+app.delete("/api/notes/:selected", function(req, res){
+  connection.query("DELETE FROM tables where id = ?", [req.params.selected], function(err, result){
+    if(err) {
+      
+      return console.log("delete");
+    }
+    res.json(result);
+  })
+})
 
 app.listen(PORT, () => console.log("you are online.") );
