@@ -35,8 +35,6 @@ The goal was to create an app to create, read, delete, update and store notes us
       To delete a note, click on the delete button below the note and the note will be deleted.
     * Create 
       To create a note, click on the Create Note button after entering the desired note title and note content.
-
-    ![Notes Page](assets/images/Capture3.PNG)
       
 ## Technologies used
 - Node.js
