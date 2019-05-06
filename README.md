@@ -27,14 +27,14 @@ The goal was to create an app to create, read, delete, update and store notes us
     ![Notes Page](assets/images/Capture2.PNG) 
 
 
-    * Read
-      To read a note, click the Read button below the note, the title and the content of the note will be displayed in the Note Title and Note Content box.
-    * Update
-      To update a note, first click on Read button, then change the title and the content of the note to your preference and then click on the Update button below and the note will be updated. 
-    * Delete
-      To delete a note, click on the delete button below the note and the note will be deleted.
-    * Create 
-      To create a note, click on the Create Note button after entering the desired note title and note content.
+    * Read:
+      - To read a note, click the Read button below the note, the title and the content of the note will be displayed in the Note Title and Note Content box.
+    * Update:
+      - To update a note, first click on Read button, then change the title and the content of the note to your preference and then click on the Update button below and the note will be updated. 
+    * Delete:
+      - To delete a note, click on the delete button below the note and the note will be deleted.
+    * Create:
+      - To create a note, click on the Create Note button after entering the desired note title and note content.
       
 ## Technologies used
 - Node.js
