@@ -10,35 +10,37 @@
   <title>Noted - Notes</title>
 </head>
 
-<body>
+<body class="bg-secondary">
 
-  <nav class="navbar navbar-light bg-info">
+  <nav class="navbar navbar-light bg-dark">
     <span class="navbar-brand ml-5">
-      <h1>Noted</h1>
+      <a href="/">
+        <h1 class="text-white">Noted</h1>
+      </a>
     </span>
   </nav>
 
-  <div class="container mt-5 border border-info">
+  <div class="container mt-5 border border-white bg-secondary">
     <div class="row my-3">
 
-      <div class="col-12 col-lg-4 col-md-6 col-sm-12 mb-4">
-        <div class="card border-0" id="saved-notes">
+      <div class="col-12 col-lg-4 col-md-6 col-sm-12">
+        <div class="card border-0 bg-secondary mt-4 mx-3" id="saved-notes">
 
         </div>
       </div>
 
 
       <buton class="col-12 col-lg-8 col-md-6 col-sm-12">
-        <form>
+        <form class=" mt-4 mr-3">
           <div class="form-group">
-            <label for="title" class="h5">Note Title</label>
+            <label for="title" class="h4">Note Title</label>
             <input type="text" class="form-control" placeholder="Enter title here" id="note-title">
           </div>
           <div class="form-group">
-            <label for="content" class="h5">Note Content</label>
-            <textarea class="form-control" rows="8" placeholder="Enter note content here" id="note-content"></textarea>
+            <label for="content" class="h4">Note Content</label>
+            <textarea class="form-control" rows="8" placeholder="Enter content here" id="note-content"></textarea>
           </div>
-          <button type="submit" class="btn btn-outline-info btn-lg" id="create-note">Create Note</button>
+          <button type="submit" class="btn btn-primary btn-lg" id="create-note">Create Note</button>
         </form>
     </div>
 
@@ -59,36 +61,64 @@
       for (i = 0; i < totalNotes; i++) {
         console.log(noteInfo[i].title + "  < 2")
         const eachNoteTitle = $("<div>")
-          .addClass("card-title h5")
+          .addClass("card-title h4")
           .html("#" + noteInfo[i].id + "  " + noteInfo[i].title);
         const eachNoteContent = $("<div>")
           .addClass("card-text")
           .text(noteInfo[i].content)
         const eachNoteBody = $("<div>")
-          .addClass("card-body bg-info")
+          .addClass("card-body bg-dark text-white border rounded-lg")
           .append(eachNoteTitle, eachNoteContent)
         const eachNote = $("<div>")
           .addClass("card")
+          .html(eachNoteBody)
+
+        $("#saved-notes").append(eachNote)
+
+        const readButton = $("<button>")
+          .attr("type", "button")
+          .attr("id", "onRead")
           .attr("selected-id", `${noteInfo[i].id}`)
           .attr("selected-title", `${noteInfo[i].title}`)
           .attr("selected-content", `${noteInfo[i].content}`)
-          .attr("style", "cursor: pointer")
-          .attr("id", "onRead")
-          .html(eachNoteBody)
-        $("#saved-notes").append(eachNote)
+          .addClass("btn btn-success")
+          .text("Read")
 
-        const deleteButton = $("<button>")
+        const updateButton = $("<button>")
+          .attr("type", "button")
+          .attr("id", "onUpdate")
+          .attr("selected-id", `${noteInfo[i].id}`)
+          .addClass("btn btn-warning")
+          .text("Update")
+
+          const deleteButton = $("<button>")
           .attr("type", "button")
           .attr("id", "onDelete")
           .attr("delete-id", `${noteInfo[i].id}`)
-          .addClass("btn btn-outline-danger mb-3")
-          .text("Delete Note")
+          .addClass("btn btn-danger")
+          .text("Delete")
 
-        $("#saved-notes").append(deleteButton)
+          var buttonsDiv = $("<div>")
+            .addClass("mt-1 mb-3 d-flex justify-content-around")
+            .append(readButton)
+            .append(updateButton)
+            .append(deleteButton)
+
+          $("#saved-notes").append(buttonsDiv)
       }
     })
 
-    $(document).on("click", "#onDelete", function (event) {
+    $(document).on("click", "#onRead", function (event) {
+      event.preventDefault();
+      const readTitle = $(this).attr("selected-title");
+      console.log(readTitle + "  ReadTitle");
+      const readContent = $(this).attr("selected-content");
+      console.log(readContent + "  ReadContent");
+      $("#note-title").val(readTitle);
+      $("#note-content").val(readContent);
+    })
+
+    $(document).on("click", "#onDelete",function (event) {
       event.preventDefault();
       const readDeleteId = $(this).attr("delete-id");
       console.log(readDeleteId + "  readDeleteId");
@@ -100,15 +130,22 @@
         location.reload()
       })
     })
-
-    $(document).on("click", "#onRead", function (event) {
+    
+    $(document).on("click", "#onUpdate", function (event) {
       event.preventDefault();
-      const readTitle = $(this).attr("selected-title");
-      console.log(readTitle + "  ReadTitle");
-      const readContent = $(this).attr("selected-content");
-      console.log(readContent + "  ReadContent");
-      $("#note-title").val(readTitle);
-      $("#note-content").val(readContent);
+      const updateNoteId = $(this).attr("selected-id");
+      console.log("Update  " + updateNoteId)
+      var updatedNote = {
+        title: $("#note-title").val().trim(),
+        content: $("#note-content").val().trim()
+      }
+      $.ajax({
+        url: `/api/notes/${updateNoteId}`,
+        method: "PUT",
+        data: updatedNote
+      }).then(function(noteInfo){
+          location.reload()
+      })
     })
 
     $("#create-note").on("click", function (event) {

@@ -56,4 +56,13 @@ app.delete("/api/notes/:selected", function(req, res){
   })
 })
 
+app.put("/api/notes/:selected", function(req, res){
+  connection.query("UPDATE tables SET title = ?, content = ? WHERE id = ?", [req.body.title, req.body.content, req.params.selected], function(err, result){
+    if(err){
+      return console.log("Update");
+    }
+    res.json(result)
+  })
+})
+
 app.listen(PORT, () => console.log("you are online.") );
